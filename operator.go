@@ -1,14 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/yudapc/go-rupiah"
+)
 
 func main() {
 	var numA, numMenu float32
-	var dollar float32 = 14232.50
-	var euro float32 = 16890.10
+	var numB int
 
 	fmt.Println("=======================")
-	fmt.Println("Pilih Menu di bawah : ")
 	fmt.Println("1. Penukaran Rupiah ke Dollar")
 	fmt.Println("2. Penukaran Rupiah ke Euro")
 	fmt.Println("3. Penukaran GBP ke knut")
@@ -20,17 +22,32 @@ func main() {
 	if numMenu == 1 {
 		fmt.Print("Masukan Nilai : ")
 		fmt.Scan(&numA)
-		fmt.Print("Hasil penukaran Rp", numA, " = $")
-		fmt.Printf("%.2f", numA/dollar)
+		numAFloat := float64(numA)
+		formatRupiah := rupiah.FormatRupiah(numAFloat)
+		formatDollar := numAFloat / 14232.50
+
+		fmt.Print("Hasil penukaran ", formatRupiah, ",00", " = $")
+		fmt.Printf("%.2f", formatDollar)
+
 	} else if numMenu == 2 {
 		fmt.Print("Masukan Nilai : ")
 		fmt.Scan(&numA)
-		fmt.Print("Hasil penukaran yaitu Rp", numA, " = €")
-		fmt.Printf("%.2f", numA/euro)
+		numAFloat := float64(numA)
+		formatRupiah := rupiah.FormatRupiah(numAFloat)
+		formatEuro := numAFloat / 16890.10
+
+		fmt.Print("Hasil penukaran yaitu ", formatRupiah, ",00", " = €")
+		fmt.Printf("%.2f", formatEuro)
 	} else {
 		fmt.Print("Masukan jumlah GB Pounds : ")
-		fmt.Scan(&numA)
-		fmt.Println("Jumlah Knut yang didapatkan = ", numA*100)
-		fmt.Println("Hasil penukaran mendapatkan = ", numA/5, "Galleon(s)")
+		fmt.Scan(&numB)
+		knut := numB * 100
+		fmt.Println("Jumlah Knut yang didapatkan = ", knut)
+		galleon := numB / 5
+		fmt.Println("Hasil penukaran mendapatkan = ", galleon, "Galleon(s)")
+		sickle := galleon * 17
+		fmt.Println("Sisa ditukar menjadi = ", sickle%galleon, "Sickle(s)")
+		fmt.Println("Keping knut yang tersisa = ", knut-(sickle*29), "Knut(s)")
+
 	}
 }
